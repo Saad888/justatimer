@@ -1,12 +1,24 @@
 import { auth } from 'src/firebase'
 
-export interface TimerData {
+
+export class TimerHistory {
   group: string
   project: string
   info: string
+  year: number
+  month: number
+  day: number
   totalSeconds: number
-  isActive: boolean
-  lastStarted: Date
+
+  constructor (group: string, project: string, info: string, year: number, month: number, day: number, totalSeconds: number) {
+    this.group = group
+    this.project = project
+    this.info = info
+    this.year = year
+    this.month = month
+    this.day = day
+    this.totalSeconds = totalSeconds
+  }
 }
 
 class TimerService {
@@ -19,7 +31,7 @@ class TimerService {
     return TimerService.instance
   }
 
-  public async getTimers (): Promise<TimerData[]> {
+  public async getTimers (): Promise<TimerHistory[]> {
     const user = auth.currentUser
     if (!user) return []
 
@@ -29,25 +41,20 @@ class TimerService {
   }
 }
 
-const generateFakeTimerData = (): TimerData => {
-  // Group can be "Aeroflare", "Teraflare", "Viewpoint", or "Personal"
-  // Project can be "Website", "App", "Design", or "Other"
-  // Info can be any string
-  // TotalSeconds can be any number
-  // IsActive can be true or false
-  // LastStarted can be any date
-
+const generateFakeTimerData = (): TimerHistory => {
   const groups = ['Aeroflare', 'Teraflare', 'Viewpoint', 'Personal']
   const projects = ['Project1', 'Project2', 'Project3', 'Project4']
 
   const group = groups[Math.floor(Math.random() * groups.length)]
-  const project = projects[Math.floor(Math.random() * projects.length)]
+  const project = `${group[0]}_${projects[Math.floor(Math.random() * projects.length)]}`
   const info = 'This is a fake timer'
-  const totalSeconds = Math.floor(Math.random() * 100000)
-  const isActive = false
-  const lastStarted = new Date()
 
-  return { group, project, info, totalSeconds, isActive, lastStarted }
+  const date = new Date()
+  // start date is anytime in the last 180 days
+  date.setDate(date.getDate() - Math.floor(Math.random() * 180))
+  const totalSeconds = Math.floor(Math.random() * 3600 * 8)
+
+  return new TimerHistory(group, project, info, date.getFullYear(), date.getMonth(), date.getDate(), totalSeconds);
 }
 
 export const timersService = TimerService.getInstance()
