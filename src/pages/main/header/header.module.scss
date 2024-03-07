@@ -1,0 +1,35 @@
+@use 'src/styles/variables' as *;
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+
+  width: '100%';
+  margin-top: 0;
+  height: 70px;
+  border-bottom: 1px solid $primary-color;
+}
+
+.contentSet {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  font-size: 30px;
+  line-height: 35px;
+  color: $primary-color;
+  font-family: 'Special Elite', system-ui;
+  text-align: center;
+}
+
+.name {
+    font-size: 20px;
+    color: $primary-color;
+    text-align: center;
+    margin-right: 20px;
+}

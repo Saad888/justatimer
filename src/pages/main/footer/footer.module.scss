@@ -1,0 +1,15 @@
+@use 'src/styles/variables' as *;
+
+.footer {
+  height: 20px;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  justify-content: end;
+}
+
+.text {
+  color: $primary-color;;
+}
