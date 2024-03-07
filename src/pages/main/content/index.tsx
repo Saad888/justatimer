@@ -76,6 +76,9 @@ export const Content = () => {
       case TIMER_OPTIONS.LastYear:
         setStartDate(addDays(new Date(), -365))
         break
+      case TIMER_OPTIONS.Last5Years:
+        setStartDate(addDays(new Date(), -365 * 5))
+        break
       case TIMER_OPTIONS.ThisMonth:
         setStartDate(
           new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -140,8 +143,8 @@ export const Content = () => {
           timers={timers}
           group={activeGroup}
           project={activeProject}
-          start={new Date()}
-          end={new Date()}
+          start={startDate}
+          end={endDate}
         />
       </Container>
     </div>

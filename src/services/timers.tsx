@@ -19,6 +19,10 @@ export class TimerHistory {
     this.day = day
     this.totalSeconds = totalSeconds
   }
+
+  get date (): Date {
+    return new Date(this.year, this.month, this.day)
+  }
 }
 
 class TimerService {
@@ -36,7 +40,7 @@ class TimerService {
     if (!user) return []
 
     const timers = []
-    for (let i = 0; i < 100; i++) timers.push(generateFakeTimerData())
+    for (let i = 0; i < 1000; i++) timers.push(generateFakeTimerData())
     return timers
   }
 }
