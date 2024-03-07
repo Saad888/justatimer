@@ -1,0 +1,23 @@
+// logo.module.scss
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 300px;
+    user-select: none;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(25px + 2vmin);
+    color: white;
+    font-family: "Special Elite", system-ui;
+    margin-bottom: 20px;
+}
