@@ -36,3 +36,12 @@ h2 {
   background-color: 'red' !important;
   translate: '-20% !important';
 }
+
+
+.MuiChartsAxis-tickLabel {
+  fill: rgba(255, 255, 255, 1) !important;
+}
+
+.MuiChartsAxis-line {
+  stroke: rgba(255, 255, 255, 1) !important;
+}

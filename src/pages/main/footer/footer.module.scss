@@ -3,7 +3,7 @@
 .footer {
   height: 20px;
   display: flex;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   background-color: black;
@@ -11,5 +11,5 @@
 }
 
 .text {
-  color: $primary-color;;
+  color: $primary-color;
 }

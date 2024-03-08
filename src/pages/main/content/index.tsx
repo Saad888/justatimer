@@ -5,6 +5,7 @@ import { TimerHistory, timersService } from 'src/services/timers'
 import styles from './content.module.scss'
 import { Controls } from './controls'
 import { Histogram } from './histogram'
+import { HistoryTable } from './table'
 
 const TIMER_OPTIONS = {
   Last7Days: 'Last 7 Days',
@@ -22,9 +23,27 @@ const addDays = (date: Date, days: number): Date => {
   return newDate
 }
 
+const filterTimerData = (
+  timers: TimerHistory[],
+  group: string,
+  project: string,
+  start: Date,
+  end: Date
+) => {
+  return timers.filter(timer => {
+    return (
+      (group === 'All' || timer.group === group) &&
+      (project === 'All' || timer.project === project) &&
+      timer.date >= start &&
+      timer.date <= end
+    )
+  })
+}
+
 export const Content = () => {
   const [loading, setIsLoading] = useState(true)
   const [timers, setTimers] = useState<TimerHistory[]>([])
+  const [filteredTimers, setFilteredTimers] = useState<TimerHistory[]>([])
 
   // ----------------
   // States
@@ -90,6 +109,16 @@ export const Content = () => {
     }
   }
 
+  const onGroupNameClick = (group: string) => {
+    setActiveGroup(group)
+    setActiveProject('All')
+  }
+
+  const onProjectNameClick = (group: string, project: string) => {
+    setActiveGroup(group)
+    setActiveProject(project)
+  }
+
   // ----------------
   // Effect
   useEffect(() => {
@@ -100,6 +129,12 @@ export const Content = () => {
     }
     getTimers()
   }, [])
+
+  useEffect(() => {
+    setFilteredTimers(
+      filterTimerData(timers, activeGroup, activeProject, startDate, endDate)
+    )
+  }, [timers, activeGroup, activeProject, startDate, endDate])
 
   if (loading) {
     return <Loader active />
@@ -140,11 +175,18 @@ export const Content = () => {
         />
 
         <Histogram
-          timers={timers}
+          timers={filteredTimers}
           group={activeGroup}
           project={activeProject}
           start={startDate}
           end={endDate}
+        />
+
+        <HistoryTable
+          timers={filteredTimers}
+          onGroupClick={onGroupNameClick}
+          onProjectClick={onProjectNameClick}
+          onViewClick={() => {}} // TODO
         />
       </Container>
     </div>

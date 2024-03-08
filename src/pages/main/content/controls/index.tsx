@@ -50,6 +50,7 @@ export const DateOptions = ({ date, label, onChange }: DateData) => {
       <div className={styles.label}>{label}</div>
       <SemanticDatepicker
         value={date}
+        clearable={false}
         onChange={(_, d) => onChange(d.value)}
       />
     </GridColumn>
