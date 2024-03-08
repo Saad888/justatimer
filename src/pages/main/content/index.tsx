@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Container, Loader } from 'semantic-ui-react'
+import { Button, Container, Loader } from 'semantic-ui-react'
 import { TimerHistory, timersService } from 'src/services/timers'
 
 import styles from './content.module.scss'
 import { Controls } from './controls'
 import { Histogram } from './histogram'
 import { HistoryTable } from './table'
+import { Box, Modal } from '@mui/material'
+import { ModalContent } from './modal'
+import { TimePicker } from 'src/components/timePicker'
+import { TimerView } from './timerView'
 
 const TIMER_OPTIONS = {
   Last7Days: 'Last 7 Days',
@@ -52,6 +56,9 @@ export const Content = () => {
   const [activeTime, setActiveTime] = useState(TIMER_OPTIONS.Last7Days)
   const [startDate, setStartDate] = useState(addDays(new Date(), -7))
   const [endDate, setEndDate] = useState(new Date())
+  const [viewModalTimer, setViewModalTimer] = useState<TimerHistory | null>(
+    null
+  )
 
   // ----------------
   // Calculated Values Based On Filters
@@ -119,6 +126,12 @@ export const Content = () => {
     setActiveProject(project)
   }
 
+  const onUpdateTimer = async (timer: TimerHistory) => {
+    const updatedTimers = await timersService.updateTimerHistory(timer)
+    setTimers([...updatedTimers])
+    setViewModalTimer(null)
+  }
+
   // ----------------
   // Effect
   useEffect(() => {
@@ -174,6 +187,13 @@ export const Content = () => {
           }}
         />
 
+        <ModalContent
+          open={!!viewModalTimer}
+          handleClose={() => setViewModalTimer(null)}
+        >
+          <TimerView timer={viewModalTimer} onSave={onUpdateTimer} />
+        </ModalContent>
+
         <Histogram
           timers={filteredTimers}
           group={activeGroup}
@@ -186,7 +206,7 @@ export const Content = () => {
           timers={filteredTimers}
           onGroupClick={onGroupNameClick}
           onProjectClick={onProjectNameClick}
-          onViewClick={() => {}} // TODO
+          onViewClick={setViewModalTimer}
         />
       </Container>
     </div>

@@ -42,6 +42,8 @@ export class TimerHistory {
 }
 
 class TimerService {
+  timers: TimerHistory[] | null = null
+
   private static instance: TimerService
   private constructor () {}
   public static getInstance (): TimerService {
@@ -55,9 +57,22 @@ class TimerService {
     const user = auth.currentUser
     if (!user) return []
 
+    if (this.timers) return this.timers
+
     const timers = []
     for (let i = 0; i < 1000; i++)
       timers.push(generateFakeTimerData(i.toString()))
+    this.timers = timers
+    return timers
+  }
+
+  public async updateTimerHistory (
+    TimerHistory: TimerHistory
+  ): Promise<TimerHistory[]> {
+    const timers = await this.getTimers()
+
+    const index = timers.findIndex(timer => timer.id === TimerHistory.id)
+    if (index !== -1) timers[index] = TimerHistory
     return timers
   }
 }

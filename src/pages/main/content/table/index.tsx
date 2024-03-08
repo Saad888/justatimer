@@ -64,7 +64,7 @@ export const HistoryTable = ({
   onViewClick
 }: HistoryTableProps) => {
   const [sortedTimers, setSortedTimers] = useState<TimerHistory[][]>([])
-  const [pageSize, setPageSize] = useState(25)
+  const [pageSize, _] = useState(25)
   const [activePageIndex, setActivePageIndex] = useState(0)
   const [pageLength, setPageLength] = useState(1)
 
@@ -123,7 +123,6 @@ export const HistoryTable = ({
       </Grid>
 
       <Pagination
-        defaultActivePage={1}
         onPageChange={(_, { activePage }: any) =>
           setActivePageIndex(parseInt(activePage))
         }
