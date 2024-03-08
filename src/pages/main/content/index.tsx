@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Button, Container, Loader } from 'semantic-ui-react'
+import { Button, Container, Grid, Loader } from 'semantic-ui-react'
 import { TimerHistory, timersService } from 'src/services/timers'
 
 import styles from './content.module.scss'
 import { Controls } from './controls'
 import { Histogram } from './histogram'
 import { HistoryTable } from './table'
-import { Box, Modal } from '@mui/material'
 import { ModalContent } from './modal'
-import { TimePicker } from 'src/components/timePicker'
 import { TimerView } from './timerView'
 
 const TIMER_OPTIONS = {
@@ -25,6 +23,20 @@ const addDays = (date: Date, days: number): Date => {
   const newDate = new Date(date)
   newDate.setDate(newDate.getDate() + days)
   return newDate
+}
+
+const getBlankTimeHistory = () => {
+  const date = new Date()
+  return new TimerHistory(
+    '',
+    '',
+    '',
+    '',
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    0
+  )
 }
 
 const filterTimerData = (
@@ -127,9 +139,12 @@ export const Content = () => {
   }
 
   const onUpdateTimer = async (timer: TimerHistory) => {
-    const updatedTimers = await timersService.updateTimerHistory(timer)
+    if (timer.id === '') await timersService.saveNewTimer(timer)
+    else await timersService.updateTimerHistory(timer)
+    const updatedTimers = await timersService.getTimers()
     setTimers([...updatedTimers])
     setViewModalTimer(null)
+    return
   }
 
   // ----------------
@@ -187,13 +202,6 @@ export const Content = () => {
           }}
         />
 
-        <ModalContent
-          open={!!viewModalTimer}
-          handleClose={() => setViewModalTimer(null)}
-        >
-          <TimerView timer={viewModalTimer} onSave={onUpdateTimer} />
-        </ModalContent>
-
         <Histogram
           timers={filteredTimers}
           group={activeGroup}
@@ -202,12 +210,28 @@ export const Content = () => {
           end={endDate}
         />
 
+        <div>
+          <Button
+            color='grey'
+            onClick={() => setViewModalTimer(getBlankTimeHistory())}
+          >
+            Add New Timer
+          </Button>
+        </div>
+
         <HistoryTable
           timers={filteredTimers}
           onGroupClick={onGroupNameClick}
           onProjectClick={onProjectNameClick}
           onViewClick={setViewModalTimer}
         />
+
+        <ModalContent
+          open={!!viewModalTimer}
+          handleClose={() => setViewModalTimer(null)}
+        >
+          <TimerView timer={viewModalTimer} onSave={onUpdateTimer} />
+        </ModalContent>
       </Container>
     </div>
   )

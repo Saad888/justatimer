@@ -1,4 +1,11 @@
-import { Grid, GridColumn, GridRow, Segment, Select } from 'semantic-ui-react'
+import {
+  Button,
+  Grid,
+  GridColumn,
+  GridRow,
+  Segment,
+  Select
+} from 'semantic-ui-react'
 import styles from './controls.module.scss'
 import SemanticDatepicker from 'react-semantic-ui-datepickers'
 
@@ -67,10 +74,14 @@ export const Controls = ({
   return (
     <div className={styles.wrapper}>
       <Segment inverted>
-        <Grid columns={2} relaxed='very'>
+        <Grid columns={3} relaxed='very'>
           <GridRow>
-            <SelectOptions {...groups} />
-            <SelectOptions {...projects} />
+            <GridColumn>
+              <SelectOptions {...groups} />
+            </GridColumn>
+            <GridColumn>
+              <SelectOptions {...projects} />
+            </GridColumn>
           </GridRow>
         </Grid>
         <Grid columns={3} relaxed='very'>

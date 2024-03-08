@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
+import SemanticDatepicker from 'react-semantic-ui-datepickers'
 import {
   Button,
   ButtonGroup,
   ButtonOr,
   Form,
   FormField,
-  Grid,
   Input,
   TextArea
 } from 'semantic-ui-react'
@@ -22,15 +22,21 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
   const [group, setGroup] = useState('')
   const [project, setProject] = useState('')
   const [info, setInfo] = useState('')
+  const [date, setDate] = useState(new Date())
 
   const dirty =
     currentSeconds !== timer?.totalSeconds ||
     group !== timer?.group ||
     project !== timer?.project ||
-    info !== timer?.info
+    info !== timer?.info ||
+    date.getFullYear() !== timer?.date.getFullYear() ||
+    date.getMonth() !== timer?.date.getMonth() ||
+    date.getDate() !== timer?.date.getDate()
+
 
   const setState = (timer: TimerHistory | null) => {
     if (!timer) return
+    setDate(timer.date)
     setCurrentSeconds(timer.totalSeconds)
     setGroup(timer.group)
     setProject(timer.project)
@@ -44,9 +50,9 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
       group,
       project,
       info,
-      timer.year,
-      timer.month,
-      timer.day,
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
       currentSeconds
     )
     onSave(newTimer)
@@ -63,6 +69,21 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
       <TimePicker value={currentSeconds} setValue={setCurrentSeconds} />
       <div style={{ height: 10 }}></div>
       <Form>
+        <FormField>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <SemanticDatepicker
+              value={date}
+              clearable={false}
+              onChange={(_, { value }: any) => setDate(value)}
+            />
+          </div>
+        </FormField>
         <FormField>
           <Input
             value={group}

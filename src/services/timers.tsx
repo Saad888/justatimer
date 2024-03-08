@@ -66,14 +66,18 @@ class TimerService {
     return timers
   }
 
-  public async updateTimerHistory (
-    TimerHistory: TimerHistory
-  ): Promise<TimerHistory[]> {
+  public async updateTimerHistory (TimerHistory: TimerHistory): Promise<void> {
     const timers = await this.getTimers()
 
     const index = timers.findIndex(timer => timer.id === TimerHistory.id)
     if (index !== -1) timers[index] = TimerHistory
-    return timers
+  }
+
+  public async saveNewTimer (timer: TimerHistory): Promise<void> {
+    const timers = await this.getTimers()
+    const id = timers.length.toString()
+    timer.id = id
+    timers.push(timer)
   }
 }
 
