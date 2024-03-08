@@ -1,7 +1,6 @@
 import { TimerHistory } from 'src/services/timers'
 import styles from './histogram.module.scss'
-import { useEffect, useState } from 'react'
-import { BarChart, axisClasses } from '@mui/x-charts'
+import { BarChart } from '@mui/x-charts'
 
 interface HistogramProps {
   timers: TimerHistory[]
