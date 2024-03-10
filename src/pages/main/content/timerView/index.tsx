@@ -9,15 +9,17 @@ import {
   Input,
   TextArea
 } from 'semantic-ui-react'
+import { GroupInput, ProjectInput } from 'src/components/input'
 import { TimePicker } from 'src/components/timePicker'
-import { TimerHistory } from 'src/services/timers'
+import { TimerHistory } from 'src/services/timerHistoryService'
 
 interface TimerViewProps {
   timer: TimerHistory | null
   onSave: (timer: TimerHistory) => void
+  onDelete: (timer: TimerHistory) => void
 }
 
-export const TimerView = ({ timer, onSave }: TimerViewProps) => {
+export const TimerView = ({ timer, onSave, onDelete }: TimerViewProps) => {
   const [currentSeconds, setCurrentSeconds] = useState(0)
   const [group, setGroup] = useState('')
   const [project, setProject] = useState('')
@@ -33,7 +35,6 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
     date.getMonth() !== timer?.date.getMonth() ||
     date.getDate() !== timer?.date.getDate()
 
-
   const setState = (timer: TimerHistory | null) => {
     if (!timer) return
     setDate(timer.date)
@@ -44,6 +45,9 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
   }
 
   const handleSave = () => {
+    // Alert for confirmation
+    if (!window.confirm('Are you sure you want to save?')) return
+
     if (!timer) return
     const newTimer = new TimerHistory(
       timer.id,
@@ -56,6 +60,13 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
       currentSeconds
     )
     onSave(newTimer)
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm('Are you sure you want to save?')) return
+
+    if (!timer || timer.id === '') return
+    onDelete(timer)
   }
 
   useEffect(() => {
@@ -85,18 +96,10 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
           </div>
         </FormField>
         <FormField>
-          <Input
-            value={group}
-            onChange={(_, { value }) => setGroup(value)}
-            label='Group'
-          />
+          <GroupInput value={group} onChange={setGroup} />
         </FormField>
         <FormField>
-          <Input
-            value={project}
-            onChange={(_, { value }) => setProject(value)}
-            label='Project'
-          />
+          <ProjectInput value={project} onChange={setProject} group={group} />
         </FormField>
         <FormField>
           <TextArea
@@ -120,9 +123,15 @@ export const TimerView = ({ timer, onSave }: TimerViewProps) => {
             >
               Undo Changes
             </Button>
-            <ButtonOr />
             <Button color='green' onClick={handleSave} disabled={!dirty}>
               Save Changes
+            </Button>
+            <Button
+              color='red'
+              onClick={handleDelete}
+              disabled={timer.id === ''}
+            >
+              Delete
             </Button>
           </ButtonGroup>
         </div>

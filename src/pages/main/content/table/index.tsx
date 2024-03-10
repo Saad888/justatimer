@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Grid, Pagination, Segment } from 'semantic-ui-react'
-import { TimerHistory } from 'src/services/timers'
+import { TimerHistory } from 'src/services/timerHistoryService'
 import styles from './table.module.scss'
 
 interface HistoryTableProps {
   timers: TimerHistory[]
-  onGroupClick: (category: string) => void
-  onProjectClick: (category: string, project: string) => void
+  onGroupClick: (group: string) => void
+  onProjectClick: (group: string, project: string) => void
   onViewClick: (timer: TimerHistory) => void
 }
 
 interface HistoryTableItemProps {
   timer: TimerHistory
-  onGroupClick: (category: string) => void
-  onProjectClick: (category: string, project: string) => void
+  onGroupClick: (group: string) => void
+  onProjectClick: (group: string, project: string) => void
   onViewClick: (timer: TimerHistory) => void
 }
 
@@ -24,7 +24,7 @@ const HistoryListItem = ({
   onViewClick
 }: HistoryTableItemProps) => {
   return (
-    <Grid.Row divided inverted centered verticalAlign='middle'>
+    <Grid.Row divided centered verticalAlign='middle'>
       <Grid.Column width={2}>
         <div
           className={styles.pressable}
@@ -87,12 +87,11 @@ export const HistoryTable = ({
         columns={5}
         verticalAlign='middle'
         divided='vertically'
-        inverted
         textAlign='center'
       >
-        <Grid.Row inverted centered verticalAlign='middle'>
+        <Grid.Row centered verticalAlign='middle'>
           <Grid.Column width={2}>
-            <h3>Category</h3>
+            <h3>Group</h3>
           </Grid.Column>
           <Grid.Column width={2}>
             <h3>Project</h3>

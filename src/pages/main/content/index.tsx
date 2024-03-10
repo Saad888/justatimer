@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Button, Container, Grid, Loader } from 'semantic-ui-react'
-import { TimerHistory, timersService } from 'src/services/timers'
+import {
+  TimerHistory,
+  timerHistoryService
+} from 'src/services/timerHistoryService'
 
 import styles from './content.module.scss'
 import { Controls } from './controls'
@@ -8,6 +11,8 @@ import { Histogram } from './histogram'
 import { HistoryTable } from './table'
 import { ModalContent } from './modal'
 import { TimerView } from './timerView'
+import { ActiveTimerDisplay } from './activeTimer'
+import { auth } from 'src/firebase'
 
 const TIMER_OPTIONS = {
   Last7Days: 'Last 7 Days',
@@ -57,6 +62,7 @@ const filterTimerData = (
 }
 
 export const Content = () => {
+  const user = auth.currentUser
   const [loading, setIsLoading] = useState(true)
   const [timers, setTimers] = useState<TimerHistory[]>([])
   const [filteredTimers, setFilteredTimers] = useState<TimerHistory[]>([])
@@ -139,24 +145,31 @@ export const Content = () => {
   }
 
   const onUpdateTimer = async (timer: TimerHistory) => {
-    if (timer.id === '') await timersService.saveNewTimer(timer)
-    else await timersService.updateTimerHistory(timer)
-    const updatedTimers = await timersService.getTimers()
+    await timerHistoryService.updateTimerHistory(timer)
+    const updatedTimers = await timerHistoryService.getTimers()
     setTimers([...updatedTimers])
     setViewModalTimer(null)
-    return
+  }
+
+  const onDeleteTimer = async (timer: TimerHistory) => {
+    await timerHistoryService.deleteTimerFromHistory(timer.id)
+    const updatedTimers = await timerHistoryService.getTimers()
+    setTimers([...updatedTimers])
+    setViewModalTimer(null)
   }
 
   // ----------------
   // Effect
   useEffect(() => {
+    if (!user) return
     const getTimers = async () => {
-      const timers = await timersService.getTimers()
+      const timers = await timerHistoryService.getTimers()
+      timerHistoryService.setupCallback(setTimers)
       setTimers(timers)
       setIsLoading(false)
     }
     getTimers()
-  }, [])
+  }, [user])
 
   useEffect(() => {
     setFilteredTimers(
@@ -230,8 +243,14 @@ export const Content = () => {
           open={!!viewModalTimer}
           handleClose={() => setViewModalTimer(null)}
         >
-          <TimerView timer={viewModalTimer} onSave={onUpdateTimer} />
+          <TimerView
+            timer={viewModalTimer}
+            onSave={onUpdateTimer}
+            onDelete={onDeleteTimer}
+          />
         </ModalContent>
+
+        <ActiveTimerDisplay />
       </Container>
     </div>
   )

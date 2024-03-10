@@ -7,13 +7,13 @@
   padding: 0; /* Reset padding */
   outline: none; /* Remove focus outline, consider customizing for accessibility */
   text-align: center; /* Center text */
-  font-size: 5rem; /* Set font size */
+  font-size: 4rem; /* Set font size */
   color: $primary-color; /* Set text color */
-  width: 100px;
+  width: 70px;
   margin: 0 5px;
 
   &.long {
-    width: 130px;
+    width: 95px;
   }
 }
 

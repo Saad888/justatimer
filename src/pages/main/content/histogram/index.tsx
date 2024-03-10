@@ -1,4 +1,4 @@
-import { TimerHistory } from 'src/services/timers'
+import { TimerHistory } from 'src/services/timerHistoryService'
 import styles from './histogram.module.scss'
 import { BarChart } from '@mui/x-charts'
 

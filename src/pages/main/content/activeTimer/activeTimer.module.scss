@@ -1,0 +1,49 @@
+@use 'src/styles/variables' as *;
+
+.timerWrapper {
+  height: 0px;
+  background-color: $dark-secondary-color;
+  top: 100px;
+  transition: height 0.5s;
+  overflow: hidden;
+
+  &.active {
+    height: 550px;
+  }
+}
+
+.wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 10px;
+  width: 350px;
+}
+
+.toggle {
+  height: 40px;
+  width: 100%;
+  background-color: $dark-secondary-color;
+  border: 1px solid $primary-color;
+  float: right;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+@media (max-width: 650px) {
+  .wrapper {
+    position: fixed; // Keeps it fixed on the screen
+    top: 0; // Starts from the top of the viewport
+    right: 0; // Aligned to the right
+    bottom: 0; // Stretches to the bottom of the viewport
+    left: 0; // Stretches to the left of the viewport
+    width: 100%; // Takes full width of the viewport
+    height: 100%; // Takes full height of the viewport
+    overflow: scroll; // Allows scrolling if the content overflows the viewport's height
+    z-index: 9999; // Makes sure it is on top of everything else
+    background-color: $dark-secondary-color; // Optional: Set background color for visibility
+  }
+
+  .timerWrapper {
+    height: 550px;
+  }
+}

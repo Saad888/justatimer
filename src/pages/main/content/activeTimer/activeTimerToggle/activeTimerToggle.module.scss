@@ -1,0 +1,11 @@
+@use 'src/styles/variables' as *;
+
+.content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $primary-color;
+  font-size: 20px;
+}

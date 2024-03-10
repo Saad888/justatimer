@@ -1,0 +1,56 @@
+@use 'src/styles/variables' as *;
+
+.content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.inputs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 20px;
+  row-gap: 10px;
+  width: 100%;
+}
+
+.inputLabel {
+  font-size: 17px;
+  color: $primary-color;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 700;
+}
+
+.icon {
+  position: absolute;
+  top: 5px;
+  font-size: 18px;
+  color: $primary-color;
+  cursor: pointer;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.delete {
+  left: 5px;
+}
+
+.close {
+  right: 5px;
+}
