@@ -35,7 +35,7 @@ export const ActiveTimerToggle = ({ timer }: ActiveTimerToggleProps) => {
   useEffect(() => {
     const interval = setInterval(updateContent, 500)
     return () => clearInterval(interval)
-  }, [timer, updateContent])
+  }, [timer])
 
   return <div className={styles.content}>{content}</div>
 }
