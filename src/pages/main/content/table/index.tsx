@@ -64,7 +64,7 @@ export const HistoryTable = ({
   onViewClick
 }: HistoryTableProps) => {
   const [sortedTimers, setSortedTimers] = useState<TimerHistory[][]>([])
-  const [pageSize, _] = useState(25)
+  const [pageSize, setPageSize] = useState(25)
   const [activePageIndex, setActivePageIndex] = useState(0)
   const [pageLength, setPageLength] = useState(1)
 
@@ -79,6 +79,7 @@ export const HistoryTable = ({
     setSortedTimers(pages)
     setPageLength(pages.length)
     setActivePageIndex(1)
+    setPageSize(25)
   }, [timers, pageSize])
 
   return (

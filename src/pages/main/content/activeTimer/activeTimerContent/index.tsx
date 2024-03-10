@@ -2,11 +2,8 @@ import styles from './activeTimerContent.module.scss'
 import {
   Button,
   ButtonGroup,
-  ButtonOr,
   Form,
   Icon,
-  Input,
-  Label,
   TextArea
 } from 'semantic-ui-react'
 import { useEffect, useState } from 'react'
@@ -123,7 +120,7 @@ const ActiveTimerView = ({
       const timeVal = setTimeout(() => setStartDate(timer?.startDate), 100)
       return () => clearTimeout(timeVal)
     }
-  }, [timer?.group, timer?.project, timer?.info, timer?.startDate])
+  }, [timer?.group, timer?.project, timer?.info, timer?.startDate, group, project, info, startDate, getTimePlayed])
 
   useEffect(() => {
     if (timer === null) return

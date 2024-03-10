@@ -3,10 +3,8 @@ import SemanticDatepicker from 'react-semantic-ui-datepickers'
 import {
   Button,
   ButtonGroup,
-  ButtonOr,
   Form,
   FormField,
-  Input,
   TextArea
 } from 'semantic-ui-react'
 import { GroupInput, ProjectInput } from 'src/components/input'

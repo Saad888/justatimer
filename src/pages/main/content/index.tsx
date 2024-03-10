@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Container, Grid, Loader } from 'semantic-ui-react'
+import { Button, Container, Loader } from 'semantic-ui-react'
 import {
   TimerHistory,
   timerHistoryService

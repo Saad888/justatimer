@@ -1,13 +1,8 @@
 import { Unsubscribe } from 'firebase/auth'
 import {
-  collection,
-  query,
-  where,
   onSnapshot,
   doc,
-  DocumentSnapshot,
   DocumentData,
-  DocumentReference,
   setDoc,
   deleteDoc,
   getDoc

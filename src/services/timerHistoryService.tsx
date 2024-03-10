@@ -1,10 +1,7 @@
 import {
   doc,
   getDoc,
-  getDocs,
   updateDoc,
-  addDoc,
-  collection,
   setDoc
 } from 'firebase/firestore'
 import { auth, firestore } from 'src/firebase'
